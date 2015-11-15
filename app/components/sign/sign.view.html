@@ -1,0 +1,19 @@
+<div class="flexContainer">
+  <div id="signModal" class="modal">
+    <div id="signForm" class="alignCenter">
+      <h2 ng-if="!vm.signUp">Sign In</h2>
+      <h2 ng-if="vm.signUp">Sign Up</h2>
+
+      <form ng-submit="vm.signUpIn()">
+        <div ng-if="vm.signUp"><input type="text" name="name" placeholder="Name..." ng-model="vm.name"></div>
+        <div><input type="email" name="email" placeholder="Email..." ng-model="vm.email" value="con@con.com"></div>
+        <div><input type="password" name="password" placeholder="Password..." ng-model="vm.password"></div>
+        <div ng-if="vm.signUp"><input type="submit" class="btnPrimary" value="Sign Up"></div>
+        <div ng-if="!vm.signUp"><input type="submit" class="btnPrimary" value="Sign In"></div>
+      </form>
+      <br>
+      <div ng-if="!vm.signUp">Don't have an account? <a href="#" ng-click="vm.toggleSignUpIn()">Sign Up</a> instead</div>
+      <div ng-if="vm.signUp">Have an account? <a href="#" ng-click="vm.toggleSignUpIn()">Sign In</a> instead</div>
+    </div>
+  </div>
+</div>

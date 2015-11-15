@@ -1,0 +1,14 @@
+<div class="stockRow">
+  <div class="">&nbsp;
+    <span class="stockTicker">{{stock.ticker}}</span>
+    <span class="stockPrice">{{stock.price}}
+      <span ng-if="stock.change >= 0">
+        <span class="stockChange positive">+ {{stock.change}}</span>
+      </span>
+      <span ng-if="stock.change < 0">
+        <span class="stockChange negative">- {{stock.change * -1}}</span>
+      </span>
+    </span>
+    <span class="deleteStock" ng-click="handleDeleteStock(stock)">X</span>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+}
+input {
+  border: none;
+  background-color: white;
+  border-radius: 5px;
+  padding: 12px;
+  width: 100%;
+  border-width: 0;
+  display: block;
+  box-sizing: border-box;
+}
+a {
+  color: #a84646;
+  text-decoration: none;
+}
+.positive {
+  color: #9CBA7F;
+}
+.negative {
+  color: #a84646;
+}
+.bold {
+  font-weight: 700;
+}
+.light {
+  font-weight: 100;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.font {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+}
+.panel {
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.35);
+  background-color: #ebcfcf;
+  padding: 20px;
+  border-radius: 5px;
+}
+.btnRadius {
+  border-radius: 5px;
+}
+.btn {
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 12px 20px;
+  border: none;
+}
+.btnPrimary {
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 12px 20px;
+  border: none;
+  background-color: #a84646;
+}
+.btnPrimary:hover {
+  background-color: #923d3d;
+}
+.flexContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.shadow {
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.35);
+}
+.innerShadow {
+  box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.1);
+}
+.alignCenter {
+  text-align: center;
+}
+.centerBlock {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pointer {
+  cursor: pointer;
+}
+html,
+body {
+  height: 100%;
+  background-color: #7d3434;
+}
+#signForm input {
+  margin-bottom: 10px;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 230px;
+  box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.1);
+}

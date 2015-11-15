@@ -1,0 +1,45 @@
+Views
+  SignUp/SignIn
+  Home
+  Portfolio Detail
+  Select2 For Ticker
+  Stock Detail
+  Profile
+
+Controllers
+  SignInUpController
+    createNewUser()
+    updateUser()
+    deleteUser()
+    signUp()
+    signIn()
+
+  PortfolioController
+    addPortfolio()
+    addStockToPortfolio()
+    editPortfolioName()
+    deletePortfolio()
+
+  Directives
+    <stock-row>
+    <portfolio-col>
+    <stock-detail>
+    <portfolio-detail>
+    <enter-modal> // sign in and sign up
+    <settings>
+
+Models
+  User
+    firstname
+    lastname
+    email
+    password
+
+  Portolio
+    title
+    stockCount
+    User *
+
+  Stock
+    ticker
+    Portfolio *

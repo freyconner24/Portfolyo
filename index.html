@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="stockPortfolioApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Stock Portfolio</title>
+    <link rel="stylesheet" href="/assets/css/sign.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/assets/css/dashboard.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div ng-view></div>
+
+    <script src="http://www.parsecdn.com/js/parse-latest.js"></script>
+    <script type="text/javascript">
+      Parse.initialize("ad6mbEM5hhlV5d5mZ11f7FYpcKXN88UY8ih3ddwF", "Q84dZOCYQyf0bUahMhQ5hHaklQyORhUPHTDIgcHz");
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.js"></script>
+    <script src="app/app.module.js"></script>
+    <script src="app/app.routes.js"></script>
+    <!-- controllers -->
+    <script src="app/components/dashboard/dashboard.controller.js"></script>
+    <script src="app/components/sign/sign.controller.js"></script>
+    <!-- services -->
+    <script src="app/components/dashboard/dashboard.service.js"></script>
+    <script src="app/components/sign/sign.service.js"></script>
+    <script src="app/components/services/session.service.js"></script>
+    <!-- directives -->
+    <script src="app/shared/portfolio/portfolio.directive.js"></script>
+    <script src="app/shared/stockRow/stockRow.directive.js"></script>
+  </body>
+</html>
