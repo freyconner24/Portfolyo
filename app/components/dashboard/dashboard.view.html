@@ -1,11 +1,16 @@
+<stock-header log-out="vm.logOut()" username="vm.user.username"></stock-header>
+
 <div id="stockModal" ng-if="vm.stockModalIsVisible">
   <div class="modal">
     <div id="stockName">{{vm.modalStock.name}}</div>
     <div id="stockTicker">{{vm.modalStock.ticker}}</div>
+    <div id="stockChart"></div>
 
     {{vm.modalStock.price}}
     {{vm.modalStock.change}}
-    {{vm.modalStock.ticker}}
+    <span ng-click="vm.closeModal()" id="modalClose">
+      close
+    </span>
   </div>
 </div>
 
@@ -14,8 +19,7 @@
     <portfolio portfolio="portfolio" ticker="ticker" add-stock="vm.addStock({ticker: ticker, portfolio: portfolio})" delete-portfolio="vm.deletePortfolio({portfolio: portfolio})" delete-stock="vm.deleteStock({stock: stock})" stock-modal="vm.stockModal({stock: stock})"></portfolio>
   </div>
   <form ng-submit="vm.newPortfolio()" class="newPortfolio">
-    <div ng-if="vm.isNewPortfolio"><input id="newPortfolio" type="text" name="name" focus-me="vm.isNewPortfolio" placeholder="Portfolio name..." ng-model="vm.newPortfolioTitle" autofocus></div>
+    <div ng-if="vm.isNewPortfolio"><input id="newPortfolioInput" type="text" name="name" focus-me="vm.isNewPortfolio" placeholder="Portfolio name..." ng-model="vm.newPortfolioTitle" autofocus></div>
   </form>
-  <span class="newPortfolio" ng-if="!vm.isNewPortfolio" ng-click="vm.showPortfolioInput()">New</span>
-  <span class="logOut" ng-click="vm.logOut()">Log out</span>
+  <span class="newPortfolio" id="newPortfolioButton" ng-if="!vm.isNewPortfolio" ng-click="vm.showPortfolioInput()">New</span>
 </div>

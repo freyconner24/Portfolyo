@@ -3,8 +3,9 @@ angular
   .controller('DashboardController', DashboardController);
 
 function DashboardController(SessionFactory, $scope, $http, $window) {
+  SessionFactory.inSession();
   var vm = this;
-  vm.user = Parse.User.current();
+  vm.user = {};
   vm.isNewPortfolio = false;
   vm.stockModalIsVisible = false;
   vm.newPortfolioTitle = "";
@@ -17,9 +18,15 @@ function DashboardController(SessionFactory, $scope, $http, $window) {
   vm.deletePortfolio = deletePortfolio;
   vm.newPortfolio = newPortfolio;
   vm.stockModal = stockModal;
+  vm.closeModal = closeModal;
 
   var Stock = Parse.Object.extend("Stock");
   var Portfolio = Parse.Object.extend("Portfolio");
+
+  Parse.User.current().fetch().then(function(user) {
+    vm.user.username = user.get('username');
+    vm.user.email = user.get('email');
+  });
 
 
   function logOut() {
@@ -29,7 +36,7 @@ function DashboardController(SessionFactory, $scope, $http, $window) {
 
   function getPortfolios() {
     var query = new Parse.Query(Portfolio);
-    query.equalTo("user", vm.user);
+    query.equalTo("user", Parse.User.current());
     query.find({
       success: function(portfolios) {
         console.log("Successfully retrieved " + portfolios.length + " portfolios.");
@@ -140,11 +147,17 @@ function DashboardController(SessionFactory, $scope, $http, $window) {
   function showPortfolioInput() {
     vm.isNewPortfolio = true;
     setTimeout(function() {
-      $window.document.getElementById("newPortfolio").focus();
+      $window.document.getElementById("newPortfolioInput").focus();
     }, 30);
   }
 
   function newPortfolio() {
+    for(var i = 0; i < vm.portfolios.length; ++i) {
+      if(vm.newPortfolioTitle === vm.portfolios[i].title) {
+        return;
+      }
+    }
+
     var portfolio = new Portfolio();
 
     portfolio.set("title", vm.newPortfolioTitle);
@@ -218,13 +231,25 @@ function DashboardController(SessionFactory, $scope, $http, $window) {
   }
 
   function stockModal(stock) {
-    var url = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=" + stock.stock.ticker.toUpperCase() + "&callback=JSON_CALLBACK";
+    var ticker = stock.stock.ticker.toUpperCase();
+    var searchObject = {
+      "Normalized":false,
+      "NumberOfDays":100,
+      "DataPeriod":"Day",
+      "Elements":[
+        {
+          "Symbol":ticker,
+          "Type":"price",
+          "Params":["c"]
+        }
+      ]
+    };
+    var url = 'http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/jsonp?parameters=' + encodeURIComponent(JSON.stringify(searchObject)) + "&callback=JSON_CALLBACK";
     $http.jsonp(url).then(function(response) {
-      if(response.data.Status === undefined) {
-        return;
-      }
       vm.stockModalIsVisible = true;
-      console.log(response.data);
+      setTimeout(function() {
+        showChart(ticker, response.data.Elements[0].DataSeries.close.values, response.data.Dates);
+      }, 500);
       vm.modalStock = {
         name: response.data.Name,
         ticker: response.data.Symbol,
@@ -233,9 +258,13 @@ function DashboardController(SessionFactory, $scope, $http, $window) {
       };
     });
   }
+
+  function closeModal() {
+    vm.stockModalIsVisible = false;
+  }
 }
 
-function isDuplicateTicker(ticker, portfolio) {
+isDuplicateTicker: function(ticker, portfolio) {
   for(var i = 0; i < portfolio.stocks.length; ++i) {
     if(ticker === portfolio.stocks[i].ticker) {
       console.log("can't insert duplicate stock");
@@ -243,40 +272,4 @@ function isDuplicateTicker(ticker, portfolio) {
     }
   }
   return false;
-}
-
-/*var xxx = [];
-var portfolio = {
-  title: "tech stocks",
-  stocks: [
-    {
-      ticker: "AAPL",
-      price: 117.06,
-      change: 0.35
-    },
-    {
-      ticker: "MSFT",
-      price: 54.36,
-      change: -0.92
-    }
-  ]
-};
-xxx.push(portfolio);
-portfolio = {
-  title: "food stocks",
-  stocks: [
-    {
-      ticker: "MCD",
-      price: 3.07,
-      change: 2.46
-    },
-    {
-      ticker: "JACK",
-      price: 798.31,
-      change: -0.97
-    }
-  ]
-};
-xxx.push(portfolio);
-
-console.log("xxx", xxx);*/
+},

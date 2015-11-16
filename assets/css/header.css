@@ -94,3 +94,27 @@ a {
 .pointer {
   cursor: pointer;
 }
+#stockHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 70px;
+  background-color: #a84646;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.35);
+  margin-bottom: 10px;
+  color: white;
+}
+#stockHeader #headerTitle {
+  text-align: left;
+  margin-left: 20px;
+  font-size: 26px;
+  font-family: 'Pacifico', cursive;
+}
+#stockHeader #logOut {
+  text-align: right;
+  margin-right: 20px;
+  margin-left: auto;
+  cursor: pointer;
+  font-family: 'Pacifico', cursive;
+  font-size: 18px;
+}

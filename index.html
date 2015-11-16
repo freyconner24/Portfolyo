@@ -5,6 +5,11 @@
     <title>Stock Portfolio</title>
     <link rel="stylesheet" href="/assets/css/sign.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="/assets/css/dashboard.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/assets/css/header.css" media="screen" title="no title" charset="utf-8">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+      ${demo.css}
+    </style>
   </head>
   <body>
     <div ng-view></div>
@@ -25,8 +30,14 @@
     <script src="app/components/dashboard/dashboard.service.js"></script>
     <script src="app/components/sign/sign.service.js"></script>
     <script src="app/components/services/session.service.js"></script>
+    <script src="app/components/services/modal.service.js"></script>
     <!-- directives -->
     <script src="app/shared/portfolio/portfolio.directive.js"></script>
     <script src="app/shared/stockRow/stockRow.directive.js"></script>
+    <script src="app/shared/stockHeader/stockHeader.directive.js"></script>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="assets/js/highstock.js"></script>
+    <script src="assets/js/modules/exporting.js"></script>
   </body>
 </html>

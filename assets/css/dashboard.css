@@ -13,10 +13,17 @@ input {
   border-width: 0;
   display: block;
   box-sizing: border-box;
+  box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.2);
 }
 a {
   color: #a84646;
   text-decoration: none;
+}
+.pacifico {
+  font-family: 'Pacifico', cursive;
+}
+.radius {
+  border-radius: 5px;
 }
 .positive {
   color: #9CBA7F;
@@ -41,12 +48,9 @@ a {
   font-weight: 300;
 }
 .panel {
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.35);
   background-color: #ebcfcf;
   padding: 20px;
-  border-radius: 5px;
-}
-.btnRadius {
   border-radius: 5px;
 }
 .btn {
@@ -74,10 +78,10 @@ a {
   width: 100%;
 }
 .shadow {
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.35);
 }
 .innerShadow {
-  box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.2);
 }
 .alignCenter {
   text-align: center;
@@ -107,12 +111,11 @@ body {
   width: 100%;
 }
 #stockModal .modal {
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.35);
   background-color: #ebcfcf;
   padding: 20px;
   border-radius: 5px;
   width: 50%;
-  height: 50%;
   background-color: #a84646;
 }
 #stockModal #stockName {
@@ -121,10 +124,23 @@ body {
   font-weight: 700;
   text-align: center;
 }
+#stockModal #modalClose {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  color: white;
+  font-family: 'Pacifico', cursive;
+  margin-top: 10px;
+  margin-bottom: -10px;
+  font-size: 20px;
+}
 #portfolioContainer {
   overflow-x: auto;
   padding: 10px;
   white-space: nowrap;
+  height: calc(100vh - 100px);
 }
 #portfolioContainer input {
   min-width: 240px;
@@ -138,7 +154,7 @@ body {
   width: 240px;
   border-radius: 5px;
   margin-right: 10px;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.35);
 }
 #portfolioContainer .portfolioTitle {
   text-align: center;
@@ -164,6 +180,10 @@ body {
   background-color: #e5c0c0;
   cursor: pointer;
 }
+#portfolioContainer .portfolioScroll {
+  overflow-y: scroll;
+  max-height: calc(100vh - 120px);
+}
 #portfolioContainer .deleteStock {
   cursor: pointer;
 }
@@ -172,6 +192,25 @@ body {
 }
 #portfolioContainer .newPortfolio {
   display: inline-block;
+}
+#portfolioContainer #newPortfolioInput {
+  width: 260px;
+}
+#portfolioContainer #newPortfolioButton {
+  width: 260px;
+  background-color: #a84646;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.35);
+  margin-left: -10px;
+}
+#portfolioContainer #newPortfolioButton:hover {
+  cursor: pointer;
+  background-color: #923d3d;
 }
 #portfolioContainer .priceAndDelete {
   float: right;

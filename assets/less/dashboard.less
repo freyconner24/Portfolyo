@@ -17,7 +17,6 @@ html, body {
   .modal {
     .panel;
     width: 50%;
-    height: 50%;
     background-color: @brick;
   }
 
@@ -31,12 +30,25 @@ html, body {
   #stockTicker {
 
   }
+
+  #modalClose {
+    .alignCenter;
+    .centerBlock;
+    .pointer;
+    color: white;
+    .pacifico;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    font-size: 20px;
+
+  }
 }
 
 #portfolioContainer {
   overflow-x: auto;
   padding: 10px;
   white-space: nowrap;
+  height: calc(~"100vh - 100px");
 
   input {
     min-width: 240px;
@@ -49,7 +61,7 @@ html, body {
     padding: 10px;
     max-height: 100%;
     width: 240px;
-    border-radius: 5px;
+    .radius;
     margin-right: 10px;
     .shadow;
   }
@@ -74,11 +86,16 @@ html, body {
     margin-bottom: 8px;
     background-color: @brickLight;
     padding: 10px;
-    border-radius: 5px;
+    .radius;
     &:hover {
       background-color: darken(@brickLight, 4%);
       .pointer;
     }
+  }
+
+  .portfolioScroll {
+    overflow-y: scroll;
+    max-height: calc(~"100vh - 120px");
   }
 
   .deleteStock {
@@ -103,6 +120,27 @@ html, body {
 
   .newPortfolio {
     display: inline-block;
+    }
+
+    #newPortfolioInput {
+      width: 260px;
+    }
+
+    #newPortfolioButton {
+      width: 260px;
+      background-color: @brick;
+      padding: 10px;
+      .radius;
+      .alignCenter;
+      color: white;
+      .uppercase;
+      .bold;
+      .shadow;
+      margin-left: -10px;
+      &:hover {
+        .pointer;
+        background-color: darken(@brick, 6%);
+    }
   }
 
   .priceAndDelete {
