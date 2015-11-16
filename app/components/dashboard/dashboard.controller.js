@@ -2,7 +2,7 @@ angular
   .module('stockPortfolioApp')
   .controller('DashboardController', DashboardController);
 
-function DashboardController(SessionFactory, $scope, $http, $window) {
+function DashboardController(SessionFactory, ModalFactory, $scope, $http, $window) {
   SessionFactory.inSession();
   var vm = this;
   vm.user = {};
@@ -231,40 +231,19 @@ function DashboardController(SessionFactory, $scope, $http, $window) {
   }
 
   function stockModal(stock) {
-    var ticker = stock.stock.ticker.toUpperCase();
-    var searchObject = {
-      "Normalized":false,
-      "NumberOfDays":100,
-      "DataPeriod":"Day",
-      "Elements":[
-        {
-          "Symbol":ticker,
-          "Type":"price",
-          "Params":["c"]
-        }
-      ]
-    };
-    var url = 'http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/jsonp?parameters=' + encodeURIComponent(JSON.stringify(searchObject)) + "&callback=JSON_CALLBACK";
-    $http.jsonp(url).then(function(response) {
-      vm.stockModalIsVisible = true;
-      setTimeout(function() {
-        showChart(ticker, response.data.Elements[0].DataSeries.close.values, response.data.Dates);
-      }, 500);
-      vm.modalStock = {
-        name: response.data.Name,
-        ticker: response.data.Symbol,
-        change: response.data.Change,
-        price: response.data.LastPrice
-      };
-    });
+    ModalFactory.stockModal(stock)
+      .then(function(response) {
+        //vm.modalStock = response.vmModalStock
+        vm.stockModalIsVisible = response.vmStockModalIsVisible;
+      });
   }
 
   function closeModal() {
-    vm.stockModalIsVisible = false;
+    vm.stockModalIsVisible = ModalFactory.closeModal();
   }
 }
 
-isDuplicateTicker: function(ticker, portfolio) {
+function isDuplicateTicker(ticker, portfolio) {
   for(var i = 0; i < portfolio.stocks.length; ++i) {
     if(ticker === portfolio.stocks[i].ticker) {
       console.log("can't insert duplicate stock");
@@ -272,4 +251,4 @@ isDuplicateTicker: function(ticker, portfolio) {
     }
   }
   return false;
-},
+}
