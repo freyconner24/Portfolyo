@@ -5,6 +5,34 @@ html, body {
   background-color: @brickLight;
 }
 
+#stockModal {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.4);
+  .flexContainer;
+
+  .modal {
+    .panel;
+    width: 50%;
+    height: 50%;
+    background-color: @brick;
+  }
+
+  #stockName {
+    color: white;
+    .uppercase;
+    .bold;
+    .alignCenter;
+  }
+
+  #stockTicker {
+
+  }
+}
+
 #portfolioContainer {
   overflow-x: auto;
   padding: 10px;
@@ -16,12 +44,12 @@ html, body {
 
   .portfolio {
     vertical-align: top;
+    display: inline-block;
     background-color: @brick;
     padding: 10px;
     max-height: 100%;
     width: 240px;
     border-radius: 5px;
-    display: inline-block;
     margin-right: 10px;
     .shadow;
   }
@@ -35,11 +63,22 @@ html, body {
     .uppercase;
   }
 
+  .deletePortfolio {
+    float: right;
+    margin-right: 5px;
+    .skinny;
+    .pointer;
+  }
+
   .stockRow {
     margin-bottom: 8px;
     background-color: @brickLight;
     padding: 10px;
     border-radius: 5px;
+    &:hover {
+      background-color: darken(@brickLight, 4%);
+      .pointer;
+    }
   }
 
   .deleteStock {

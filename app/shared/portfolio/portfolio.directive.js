@@ -7,16 +7,21 @@ function PortfolioDirective() {
     restrict: 'E', //makes the directive as an element only
     templateUrl: 'app/shared/portfolio/portfolio.directive.html',
     scope: {
-      portfolio: "=portfolio",
-      ticker: "=ticker",
+      portfolio: "=",
+      ticker: "=",
       deleteStock: "&",
-      addStockToPortfolio: "&click"
+      stockModal: "&",
+      deletePortfolio: "&",
+      addStock: "&"
     },
     link: function(scope) {
-      scope.handleAddStockToPortfolio = function() {
+      scope.handleAddStock = function() {
         console.log(scope.ticker);
-        scope.addStockToPortfolio({ticker: scope.ticker, portfolio: scope.portfolio});
+        scope.addStock({ticker: scope.ticker, portfolio: scope.portfolio});
         scope.ticker = "";
+      },
+      scope.handleDeletePortfolio = function() {
+        scope.deletePortfolio({portfolio: scope.portfolio});
       }
     }
   };

@@ -2,17 +2,21 @@ angular
   .module('stockPortfolioApp')
   .controller('DashboardController', DashboardController);
 
-function DashboardController(SessionFactory, $scope, $http) {
+function DashboardController(SessionFactory, $scope, $http, $window) {
   var vm = this;
   vm.user = Parse.User.current();
   vm.isNewPortfolio = false;
+  vm.stockModalIsVisible = false;
   vm.newPortfolioTitle = "";
   vm.portfolios = [];
+  vm.modalStock = {};
   vm.logOut = logOut;
   vm.addStock = addStock;
   vm.showPortfolioInput = showPortfolioInput;
   vm.deleteStock = deleteStock;
+  vm.deletePortfolio = deletePortfolio;
   vm.newPortfolio = newPortfolio;
+  vm.stockModal = stockModal;
 
   var Stock = Parse.Object.extend("Stock");
   var Portfolio = Parse.Object.extend("Portfolio");
@@ -48,6 +52,7 @@ function DashboardController(SessionFactory, $scope, $http) {
         var newPortfolio = {
           objectId: portfolio.id,
           title: portfolio.get("title"),
+          isDeleted: false,
           stocks: []
         };
         for(var i = 0; i < stocks.length; i++) {
@@ -134,6 +139,9 @@ function DashboardController(SessionFactory, $scope, $http) {
 
   function showPortfolioInput() {
     vm.isNewPortfolio = true;
+    setTimeout(function() {
+      $window.document.getElementById("newPortfolio").focus();
+    }, 30);
   }
 
   function newPortfolio() {
@@ -148,9 +156,12 @@ function DashboardController(SessionFactory, $scope, $http) {
         var newPortfolio = {
           objectId: portfolio.id,
           title: vm.newPortfolioTitle,
+          isDeleted: false,
           stocks: []
         }
         vm.portfolios.push(newPortfolio);
+        vm.newPortfolioTitle = "";
+        vm.isNewPortfolio = false;
         $scope.$apply();
       },
       error: function(portfolio, error) {
@@ -159,21 +170,67 @@ function DashboardController(SessionFactory, $scope, $http) {
         alert('Failed to create new object, with error code: ' + error.message);
       }
     });
-    vm.isNewPortfolio = false;
   }
 
   function deleteStock(stock) {
     var deleteStock = new Stock();
-
     deleteStock.set("id", stock.stock.objectId);
 
     deleteStock.destroy({
       success: function(stock) {
         console.log("deleted", stock);
+        for(var i = 0; i < vm.portfolios.length; ++i) {
+          for(var j = 0; j < vm.portfolios[i].stocks.length; ++j) {
+            if(stock.id == vm.portfolios[i].stocks[j].objectId) {
+              vm.portfolios[i].stocks.splice(j, 1);
+              console.log("found");
+              $scope.$apply();
+            }
+          }
+        }
       },
-      error: function(myObject, error) {
+      error: function(stock, error) {
         console.log("deleteFailed: ", stock);
       }
+    });
+  }
+
+  function deletePortfolio(portfolio) {
+    console.log("delete portfolio", portfolio.portfolio);
+    var deletePortfolio = new Portfolio();
+    deletePortfolio.set("id", portfolio.portfolio.objectId);
+
+    deletePortfolio.destroy({
+      success: function(portfolio) {
+        console.log("deleted", portfolio);
+        for(var i = 0; i < vm.portfolios.length; ++i) {
+          if(vm.portfolios[i].objectId == portfolio.id) {
+            vm.portfolios.splice(i, 1);
+            console.log("found");
+            $scope.$apply();
+          }
+        }
+      },
+      error: function(portfolio, error) {
+        console.log("deleteFailed: ", portfolio);
+      }
+    });
+  }
+
+  function stockModal(stock) {
+    var url = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=" + stock.stock.ticker.toUpperCase() + "&callback=JSON_CALLBACK";
+    $http.jsonp(url).then(function(response) {
+      if(response.data.Status === undefined) {
+        return;
+      }
+      vm.stockModalIsVisible = true;
+      console.log(response.data);
+      vm.modalStock = {
+        name: response.data.Name,
+        ticker: response.data.Symbol,
+        change: response.data.Change,
+        price: response.data.LastPrice
+      };
     });
   }
 }

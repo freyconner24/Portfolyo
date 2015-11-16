@@ -1,11 +1,12 @@
 <div>
   <div class="portfolioTitle">
     {{portfolio.title}}
+    <span class="deletePortfolio" ng-click="handleDeletePortfolio({portfolio: portfolio})">X</span>
   </div>
   <div ng-repeat="stock in portfolio.stocks track by $index">
-    <stock-row stock="stock" delete-stock="deleteStock({stock: stock})" ng-if="!stock.isDeleted"></stock-row>
+    <stock-row stock="stock" delete-stock="deleteStock({stock: stock})" stock-modal="stockModal({stock: stock})" ng-if="!stock.isDeleted"></stock-row>
   </div>
-  <form class="addStock" ng-submit="handleAddStockToPortfolio({ticker: ticker, portfolio: portfolio})">
+  <form class="addStock" ng-submit="handleAddStock({ticker: ticker, portfolio: portfolio})">
     <input type="text" name="tickerSymbol" ng-model="ticker" placeholder="Ticker symbol...">
   </form>
 </div>

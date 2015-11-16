@@ -1,9 +1,20 @@
+<div id="stockModal" ng-if="vm.stockModalIsVisible">
+  <div class="modal">
+    <div id="stockName">{{vm.modalStock.name}}</div>
+    <div id="stockTicker">{{vm.modalStock.ticker}}</div>
+
+    {{vm.modalStock.price}}
+    {{vm.modalStock.change}}
+    {{vm.modalStock.ticker}}
+  </div>
+</div>
+
 <div id="portfolioContainer" ng-click="vm.working()">
   <div ng-repeat="portfolio in vm.portfolios | orderBy: 'title' track by $index" class="portfolio">
-    <portfolio portfolio="portfolio" ticker="ticker" click="vm.addStock({ticker: ticker, portfolio: portfolio})" delete-stock="vm.deleteStock({stock: stock})"></portfolio>
+    <portfolio portfolio="portfolio" ticker="ticker" add-stock="vm.addStock({ticker: ticker, portfolio: portfolio})" delete-portfolio="vm.deletePortfolio({portfolio: portfolio})" delete-stock="vm.deleteStock({stock: stock})" stock-modal="vm.stockModal({stock: stock})"></portfolio>
   </div>
   <form ng-submit="vm.newPortfolio()" class="newPortfolio">
-    <div ng-if="vm.isNewPortfolio"><input type="text" name="name" placeholder="Portfolio name..." ng-model="vm.newPortfolioTitle"></div>
+    <div ng-if="vm.isNewPortfolio"><input id="newPortfolio" type="text" name="name" focus-me="vm.isNewPortfolio" placeholder="Portfolio name..." ng-model="vm.newPortfolioTitle" autofocus></div>
   </form>
   <span class="newPortfolio" ng-if="!vm.isNewPortfolio" ng-click="vm.showPortfolioInput()">New</span>
   <span class="logOut" ng-click="vm.logOut()">Log out</span>

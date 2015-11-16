@@ -27,6 +27,9 @@ a {
 .bold {
   font-weight: 700;
 }
+.skinny {
+  font-weight: 300;
+}
 .light {
   font-weight: 100;
 }
@@ -92,6 +95,32 @@ body {
   height: 100%;
   background-color: #ebcfcf;
 }
+#stockModal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+#stockModal .modal {
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.35);
+  background-color: #ebcfcf;
+  padding: 20px;
+  border-radius: 5px;
+  width: 50%;
+  height: 50%;
+  background-color: #a84646;
+}
+#stockModal #stockName {
+  color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+}
 #portfolioContainer {
   overflow-x: auto;
   padding: 10px;
@@ -102,12 +131,12 @@ body {
 }
 #portfolioContainer .portfolio {
   vertical-align: top;
+  display: inline-block;
   background-color: #a84646;
   padding: 10px;
   max-height: 100%;
   width: 240px;
   border-radius: 5px;
-  display: inline-block;
   margin-right: 10px;
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.35);
 }
@@ -119,11 +148,21 @@ body {
   font-weight: 700;
   text-transform: uppercase;
 }
+#portfolioContainer .deletePortfolio {
+  float: right;
+  margin-right: 5px;
+  font-weight: 300;
+  cursor: pointer;
+}
 #portfolioContainer .stockRow {
   margin-bottom: 8px;
   background-color: #ebcfcf;
   padding: 10px;
   border-radius: 5px;
+}
+#portfolioContainer .stockRow:hover {
+  background-color: #e5c0c0;
+  cursor: pointer;
 }
 #portfolioContainer .deleteStock {
   cursor: pointer;
