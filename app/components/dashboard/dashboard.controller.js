@@ -11,6 +11,7 @@ function DashboardController(SessionFactory, $scope, $http) {
   vm.logOut = logOut;
   vm.addStock = addStock;
   vm.showPortfolioInput = showPortfolioInput;
+  vm.deleteStock = deleteStock;
   vm.newPortfolio = newPortfolio;
 
   var Stock = Parse.Object.extend("Stock");
@@ -29,8 +30,7 @@ function DashboardController(SessionFactory, $scope, $http) {
       success: function(portfolios) {
         console.log("Successfully retrieved " + portfolios.length + " portfolios.");
         for (var i = 0; i < portfolios.length; i++) {
-          var portfolio = portfolios[i];
-          getStocks(portfolio);
+          getStocks(portfolios[i]);
         }
       },
       error: function(error) {
@@ -49,18 +49,31 @@ function DashboardController(SessionFactory, $scope, $http) {
           objectId: portfolio.id,
           title: portfolio.get("title"),
           stocks: []
+        };
+        for(var i = 0; i < stocks.length; i++) {
+          var stock = stocks[i];
+          var ticker = stock.get("ticker");
+          var url = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=" + ticker.toUpperCase() + "&callback=JSON_CALLBACK";
+          $http({
+            method: "jsonp",
+            url: url,
+            params: {ticker: ticker, stock: stock}
+          }).then(function(response) {
+            if(response.data.Status === undefined) {
+              return;
+            }
+            var newStock = {
+              ticker: response.config.params.ticker,
+              objectId: response.config.params.stock.id,
+              price: response.data.LastPrice,
+              change: response.data.Change.toFixed(2),
+              isDeleted: false
+            };
+            newPortfolio.stocks.push(newStock);
+          });
         }
-        for (var i = 0; i < stocks.length; i++) {
-          var object = stocks[i];
-          var newStock = {
-            ticker: object.get("ticker"),
-            objectId: object.id
-          }
-          newPortfolio.stocks.push(newStock);
-          vm.portfolios.push(newPortfolio);
-        }
+        vm.portfolios.push(newPortfolio);
         $scope.$apply();
-        console.log(vm.portfolios);
       },
       error: function(error) {
         alert("Error: " + error.code + " " + error.message);
@@ -71,6 +84,11 @@ function DashboardController(SessionFactory, $scope, $http) {
   function addStock(object) {
     var ticker = object.ticker;
     var url = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=" + ticker.toUpperCase() + "&callback=JSON_CALLBACK";
+
+    if(isDuplicateTicker(ticker, object.portfolio)) {
+      return;
+    }
+
     return $http.jsonp(url).then(function(response) {
       if(response.data.Status === undefined) {
         return;
@@ -88,7 +106,10 @@ function DashboardController(SessionFactory, $scope, $http) {
               console.log('New object created with objectId: ' + stock.id);
               var newStock = {
                 ticker: stock.get("ticker"),
-                objectId: stock.id
+                objectId: stock.id,
+                price: response.data.LastPrice,
+                change: response.data.Change.toFixed(2),
+                isDeleted: false
               };
               for(var i = 0; i < vm.portfolios.length; ++i) {
                 if(portfolio.id == vm.portfolios[i].objectId) {
@@ -140,6 +161,31 @@ function DashboardController(SessionFactory, $scope, $http) {
     });
     vm.isNewPortfolio = false;
   }
+
+  function deleteStock(stock) {
+    var deleteStock = new Stock();
+
+    deleteStock.set("id", stock.stock.objectId);
+
+    deleteStock.destroy({
+      success: function(stock) {
+        console.log("deleted", stock);
+      },
+      error: function(myObject, error) {
+        console.log("deleteFailed: ", stock);
+      }
+    });
+  }
+}
+
+function isDuplicateTicker(ticker, portfolio) {
+  for(var i = 0; i < portfolio.stocks.length; ++i) {
+    if(ticker === portfolio.stocks[i].ticker) {
+      console.log("can't insert duplicate stock");
+      return true;
+    }
+  }
+  return false;
 }
 
 /*var xxx = [];

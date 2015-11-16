@@ -1,9 +1,9 @@
-<div class="portfolio">
+<div>
   <div class="portfolioTitle">
     {{portfolio.title}}
   </div>
-  <div ng-repeat="stock in portfolio.stocks">
-    <stock-row stock="stock" deleteStock="vm.deleteStock(stock)"></stock-row>
+  <div ng-repeat="stock in portfolio.stocks track by $index">
+    <stock-row stock="stock" delete-stock="deleteStock({stock: stock})" ng-if="!stock.isDeleted"></stock-row>
   </div>
   <form class="addStock" ng-submit="handleAddStockToPortfolio({ticker: ticker, portfolio: portfolio})">
     <input type="text" name="tickerSymbol" ng-model="ticker" placeholder="Ticker symbol...">

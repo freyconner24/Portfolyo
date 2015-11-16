@@ -8,11 +8,12 @@ function StockRowDirective() {
     templateUrl: 'app/shared/stockRow/stockRow.directive.html',
     scope: {
       stock: "=stock",
-      deleteStock: "&deleteStock"
+      deleteStock: "&"
     },
     link: function(scope) {
-      scope.handleDeleteStock = function(stock) {
-        scope.deleteStock(stock);
+      scope.handleDeleteStock = function() {
+        scope.deleteStock({stock: scope.stock});
+        scope.stock.isDeleted = true;
       }
     }
   };

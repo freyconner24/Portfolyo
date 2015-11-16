@@ -1,10 +1,10 @@
 <div id="portfolioContainer" ng-click="vm.working()">
-  <div ng-repeat="portfolio in vm.portfolios">
-    <portfolio portfolio="portfolio" ticker="ticker" click="vm.addStock({ticker: ticker, portfolio: portfolio})"></portfolio>
+  <div ng-repeat="portfolio in vm.portfolios | orderBy: 'title' track by $index" class="portfolio">
+    <portfolio portfolio="portfolio" ticker="ticker" click="vm.addStock({ticker: ticker, portfolio: portfolio})" delete-stock="vm.deleteStock({stock: stock})"></portfolio>
   </div>
-  <form ng-submit="vm.newPortfolio()">
+  <form ng-submit="vm.newPortfolio()" class="newPortfolio">
     <div ng-if="vm.isNewPortfolio"><input type="text" name="name" placeholder="Portfolio name..." ng-model="vm.newPortfolioTitle"></div>
   </form>
-  <div class="newPortfolio" ng-click="vm.showPortfolioInput()">New</div>
-  <div class="logOut" ng-click="vm.logOut()">Log out</div>
+  <span class="newPortfolio" ng-if="!vm.isNewPortfolio" ng-click="vm.showPortfolioInput()">New</span>
+  <span class="logOut" ng-click="vm.logOut()">Log out</span>
 </div>

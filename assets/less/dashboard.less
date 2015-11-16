@@ -6,20 +6,22 @@ html, body {
 }
 
 #portfolioContainer {
-  overflow-x: scroll;
+  overflow-x: auto;
   padding: 10px;
+  white-space: nowrap;
 
   input {
-    max-width: 240px;
+    min-width: 240px;
   }
 
   .portfolio {
+    vertical-align: top;
     background-color: @brick;
     padding: 10px;
     max-height: 100%;
     width: 240px;
     border-radius: 5px;
-    float: left;
+    display: inline-block;
     margin-right: 10px;
     .shadow;
   }
@@ -32,22 +34,39 @@ html, body {
     .bold;
     .uppercase;
   }
+
   .stockRow {
     margin-bottom: 8px;
     background-color: @brickLight;
     padding: 10px;
     border-radius: 5px;
   }
+
+  .deleteStock {
+    .pointer;
+  }
+
   .addStock {
 
   }
+
   .stockTicker {
     float: left;
   }
+
   .stockPrice {
-    float: right;
+
   }
+
   .stockChange {
 
+  }
+
+  .newPortfolio {
+    display: inline-block;
+  }
+
+  .priceAndDelete {
+    float: right;
   }
 }

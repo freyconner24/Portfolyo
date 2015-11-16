@@ -9,6 +9,7 @@ function PortfolioDirective() {
     scope: {
       portfolio: "=portfolio",
       ticker: "=ticker",
+      deleteStock: "&",
       addStockToPortfolio: "&click"
     },
     link: function(scope) {
