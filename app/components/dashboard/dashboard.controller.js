@@ -28,7 +28,9 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
   PortfolioFactory.getPortfolios()
     .then(function(vmPortfolios) {
       console.log("controller", vmPortfolios);
-      vm.portfolios = vmPortfolios;
+      if(vmPortfolios != undefined) {
+        vm.portfolios = vmPortfolios;
+      }
       $scope.$apply();
     });
 
@@ -52,8 +54,9 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
   }
 
   function newPortfolio() {
-    PortfolioFactory.newPortfolio(vm.portfolios, vm.newPortfolioTitle)
+    PortfolioFactory.newPortfolio(vm)
       .then(function(newPortfolio) {
+        console.log(newPortfolio);
         vm.portfolios.push(newPortfolio);
         vm.newPortfolioTitle = "";
         vm.isNewPortfolio = false;
@@ -71,7 +74,7 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
 
   function deletePortfolio(portfolio) {
     PortfolioFactory.deletePortfolio(portfolio, vm.portfolios)
-      .then(function() {
+      .then(function(portfolios) {
         vm.portfolios = portfolios;
         $scope.$apply();
       });
