@@ -78,7 +78,10 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
   }
 
   function stockModal(stock) {
-    ModalFactory.stockModal(stock);
+    ModalFactory.stockModal(stock)
+      .then(function(response) {
+        vm.stockModalIsVisible = response.vmStockModalIsVisible;
+      });
   }
 
   function closeModal() {

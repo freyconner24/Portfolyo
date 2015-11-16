@@ -2,7 +2,7 @@ angular
   .module('stockPortfolioApp')
   .factory('ModalFactory', ModalFactory);
 
-function ModalFactory($location) {
+function ModalFactory($location, $http) {
   var factory = {};
   return factory = {
     showChart: function(ticker, values, dates) {
@@ -34,6 +34,7 @@ function ModalFactory($location) {
       });
     },
     stockModal: function(stock) {
+      console.log(stock);
       var ticker = stock.stock.ticker.toUpperCase();
       var searchObject = {
         "Normalized":false,
@@ -48,17 +49,24 @@ function ModalFactory($location) {
         ]
       };
       var url = 'http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/jsonp?parameters=' + encodeURIComponent(JSON.stringify(searchObject)) + "&callback=JSON_CALLBACK";
-      $http.jsonp(url).then(function(response) {
-        vm.stockModalIsVisible = true;
+      console.log(url);
+      return $http.jsonp(url).then(function(response) {
+        console.log(response);
+        var vmStockModalIsVisible = true;
         setTimeout(function() {
           factory.showChart(ticker, response.data.Elements[0].DataSeries.close.values, response.data.Dates);
         }, 500);
-        vm.modalStock = {
+        var vmModalStock = { // TODO: these are all undefined since query is different
           name: response.data.Name,
           ticker: response.data.Symbol,
           change: response.data.Change,
           price: response.data.LastPrice
         };
+        var modalObject = {
+          vmStockModalIsVisible: vmStockModalIsVisible
+        };
+        console.log(modalObject);
+        return modalObject;
       });
     },
     closeModal: function() {
