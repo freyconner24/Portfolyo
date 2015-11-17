@@ -1,9 +1,9 @@
 <div class="portfolioScroll">
   <div class="portfolioTitle">
     {{portfolio.title}}
-    <span class="deletePortfolio" ng-click="handleDeletePortfolio({portfolio: portfolio})">X</span>
+    <span class="deletePortfolio" ng-click="handleDeletePortfolio({portfolio: portfolio})"><i class="fa fa-close"></i></span>
   </div>
-  <div ng-repeat="stock in portfolio.stocks track by $index">
+  <div ng-repeat="stock in portfolio.stocks | orderBy: 'ticker' track by $index">
     <stock-row stock="stock" delete-stock="deleteStock({stock: stock})" stock-modal="stockModal({stock: stock})" ng-if="!stock.isDeleted"></stock-row>
   </div>
   <form class="addStock" ng-submit="handleAddStock({ticker: ticker, portfolio: portfolio})">

@@ -6,7 +6,7 @@
         <span ng-if="stock.change >= 0" class="stockChange positive">+ {{stock.change}}</span>
         <span ng-if="stock.change < 0" class="stockChange negative">- {{stock.change * -1}}</span>
       </span>
-      <span class="deleteStock" ng-click="handleDeleteStock({stock: stock})">X</span>
+      <span class="deleteStock" ng-click="handleDeleteStock({stock: stock})"><i class="fa fa-close"></i></span>
     </span>
   </div>
 </div>

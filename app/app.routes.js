@@ -4,6 +4,11 @@ angular
 
 function config($routeProvider, $locationProvider) {
   $routeProvider
+    .when('/', {
+      templateUrl: '/app/components/sign/sign.view.html',
+      controller: 'SignController',
+      controllerAs: 'vm'
+    })
     .when('/sign', {
       templateUrl: '/app/components/sign/sign.view.html',
       controller: 'SignController',

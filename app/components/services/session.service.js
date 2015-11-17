@@ -3,23 +3,24 @@ angular
   .factory('SessionFactory', SessionFactory);
 
 function SessionFactory($location) {
-  return {
+  var factory = {};
+  return factory = {
     inSession: function() {
       var currentUser = Parse.User.current();
       if (!currentUser) {
+          console.log("route to sign");
           var route = '/sign';
           $location.url(route);
       } else {
+        console.log("route to dashboard");
         var route = '/dashboard';
         $location.url(route);
       }
     },
     logOut: function() {
-      Parse.User.logOut();
-      var currentUser = Parse.User.current();
-      if(!currentUser) {
-        this.inSession();
-      }
+      return Parse.User.logOut().then(function() {
+        factory.inSession();
+      });
     }
   };
 }

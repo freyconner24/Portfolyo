@@ -10,6 +10,7 @@ body {
   .font;
   margin: 0;
   padding: 0;
+  color: #111;
 }
 
 input {
@@ -38,7 +39,7 @@ a {
 }
 
 .positive {
-  color: @positive;
+  color: darken(@positive, 10%);
 }
 
 .negative {
@@ -62,7 +63,7 @@ a {
 }
 
 .font {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
 }
 
@@ -87,6 +88,11 @@ a {
   &:hover {
     background-color: @brickHover;
   }
+}
+
+.fullScreen {
+  height: 100vh;
+  width: 100vw;
 }
 
 .flexContainer {

@@ -1,8 +1,9 @@
 body {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   margin: 0;
   padding: 0;
+  color: #111;
 }
 input {
   border: none;
@@ -26,7 +27,7 @@ a {
   border-radius: 5px;
 }
 .positive {
-  color: #9CBA7F;
+  color: #82a85e;
 }
 .negative {
   color: #a84646;
@@ -44,7 +45,7 @@ a {
   text-transform: uppercase;
 }
 .font {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
 }
 .panel {
@@ -69,6 +70,10 @@ a {
 }
 .btnPrimary:hover {
   background-color: #923d3d;
+}
+.fullScreen {
+  height: 100vh;
+  width: 100vw;
 }
 .flexContainer {
   display: flex;
@@ -99,6 +104,11 @@ body {
   height: 100%;
   background-color: #7d3434;
 }
+.signContainer {
+  height: 100vh;
+  width: 100vw;
+  background-color: #7d3434;
+}
 #signForm input {
   margin-bottom: 10px;
   text-align: center;
@@ -107,4 +117,11 @@ body {
   margin-right: auto;
   max-width: 230px;
   box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.2);
+}
+#signModal {
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.35);
+  background-color: #ebcfcf;
+  padding: 20px;
+  border-radius: 5px;
+  min-width: 500px;
 }

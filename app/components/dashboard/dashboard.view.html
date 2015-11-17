@@ -14,12 +14,12 @@
   </div>
 </div>
 
-<div id="portfolioContainer" ng-click="vm.working()">
+<div id="portfolioContainer" ng-click="vm.working()" ng-init="vm.getPortfolios()">
   <div ng-repeat="portfolio in vm.portfolios | orderBy: 'title' track by $index" class="portfolio">
     <portfolio portfolio="portfolio" ticker="ticker" add-stock="vm.addStock({ticker: ticker, portfolio: portfolio})" delete-portfolio="vm.deletePortfolio({portfolio: portfolio})" delete-stock="vm.deleteStock({stock: stock})" stock-modal="vm.stockModal({stock: stock})"></portfolio>
   </div>
   <form ng-submit="vm.newPortfolio()" class="newPortfolio">
     <div ng-if="vm.isNewPortfolio"><input id="newPortfolioInput" type="text" name="name" focus-me="vm.isNewPortfolio" placeholder="Portfolio name..." ng-model="vm.newPortfolioTitle" autofocus></div>
   </form>
-  <span class="newPortfolio" id="newPortfolioButton" ng-if="!vm.isNewPortfolio" ng-click="vm.showPortfolioInput()">New</span>
+  <span class="newPortfolio" id="newPortfolioButton" ng-if="!vm.isNewPortfolio" ng-click="vm.showPortfolioInput()">New &nbsp;Portfolyo</span>
 </div>

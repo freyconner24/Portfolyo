@@ -11,6 +11,7 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
   vm.newPortfolioTitle = "";
   vm.portfolios = [];
   vm.modalStock = {};
+  vm.getPortfolios = getPortfolios;
   vm.logOut = logOut;
   vm.addStock = addStock;
   vm.showPortfolioInput = showPortfolioInput;
@@ -25,17 +26,21 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
     vm.user.email = user.get('email');
   });
 
-  PortfolioFactory.getPortfolios()
-    .then(function(vmPortfolios) {
-      console.log("controller", vmPortfolios);
-      if(vmPortfolios != undefined) {
-        vm.portfolios = vmPortfolios;
-      }
-      $scope.$apply();
-    });
+  function getPortfolios() {
+    PortfolioFactory.getPortfolios()
+      .then(function(portfolios) {
+        vm.portfolios = portfolios;
+        $scope.$apply();
+      });
+  }
 
   function logOut() {
-    SessionFactory.logOut();
+    SessionFactory.logOut()
+    .then(function() {
+      vm.portfolios = [];
+      vm.modalStock = {};
+      vm.user = {};
+    });
   }
 
   function showPortfolioInput() {
@@ -49,14 +54,12 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
     StockFactory.addStock(object, vm.portfolios)
       .then(function(portfolios) {
         vm.portfolios = portfolios;
-        $scope.$apply();
       });
   }
 
   function newPortfolio() {
     PortfolioFactory.newPortfolio(vm)
       .then(function(newPortfolio) {
-        console.log(newPortfolio);
         vm.portfolios.push(newPortfolio);
         vm.newPortfolioTitle = "";
         vm.isNewPortfolio = false;

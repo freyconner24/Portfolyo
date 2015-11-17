@@ -2,61 +2,27 @@ angular
   .module('stockPortfolioApp')
   .factory('SignFactory', SignFactory);
 
-function SignFactory($location) {
-  return {
-    inSession: function() {
-      var currentUser = Parse.User.current();
-      if (!currentUser) {
-          var route = '/sign';
-          $location.url(route);
-      } else {
-        var route = '/dashboard';
-        $location.url(route);
-      }
-    },
+function SignFactory($location, SessionFactory) {
+  return factory = {
     signUp: function(name, email, password) {
       var user = new Parse.User();
       user.set("username", name);
       user.set("password", password);
       user.set("email", email);
-      console.log(name, password, email);
 
-      user.signUp(null, {
-        success: function(user) {
-          console.log("User " + name + " has signed up!");
-        },
-        error: function(user, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        }
+      return user.signUp(null).then(function(user) {
+        console.log("User " + name + " has signed up!");
       });
     },
     signIn: function(email, password) {
       var query = new Parse.Query(Parse.User);
       query.equalTo("email", email);
-      query.first({
-        success: function(user) {
-          user.fetch().then(function(user) {
-            Parse.User.logIn(user.getUsername(), password, {
-              success: function(user) {
-                console.log("login");
-                var route = '/dashboard';
-                $location.url(route);
-                return true;
-              },
-              error: function(user, error) {
-                console.log("Error: " + error.code + " " + error.message);
-                return false;
-              }
-            });
-          }, function(error) {
-              //Handle the error
-              return false;
-          });
-        },
-        error: function(error) {
-          console.log("Error: " + error.code + " " + error.message);
-          return false;
-        }
+      return query.first().then(function(user) {
+        return user.fetch();
+      }).then(function(user) {
+        return Parse.User.logIn(user.getUsername(), password);
+      }).then(function(user) {
+        console.log("login");
       });
     }
   };

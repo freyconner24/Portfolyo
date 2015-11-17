@@ -5,22 +5,20 @@ angular
 function PortfolioFactory(StockFactory) {
   var Stock = Parse.Object.extend("Stock");
   var Portfolio = Parse.Object.extend("Portfolio");
-  var currentUser = Parse.User.current();
   var factory = {};
   return factory = {
     getPortfolios: function() {
       var query = new Parse.Query(Portfolio);
-      query.equalTo("user", currentUser);
+      query.equalTo("user", Parse.User.current());
       return query.find().then(function(portfolios) {
         var vmPortfolios = [];
         console.log("Successfully retrieved " + portfolios.length + " portfolios.");
         for (var i = 0; i < portfolios.length; i++) {
-          vmPortfolios.push(StockFactory.getStocks(portfolios[i]));
+          StockFactory.getStocks(portfolios[i]).then(function(portfolio) {
+            vmPortfolios.push(portfolio);
+          });
         }
-        console.log("factory", vmPortfolios);
         return vmPortfolios; // TODO: issue is here.  It returns promises
-      }).then(function(error) {
-        alert("Error: " + error.code + " " + error.message);
       });
     },
     newPortfolio: function(vm) {
@@ -31,7 +29,7 @@ function PortfolioFactory(StockFactory) {
       var portfolio = new Portfolio();
 
       portfolio.set("title", vm.newPortfolioTitle);
-      portfolio.set("user", currentUser);
+      portfolio.set("user", Parse.User.current());
 
       return portfolio.save(null).then(function(portfolio) {
         console.log('New object created with objectId: ' + portfolio.id);
@@ -45,7 +43,6 @@ function PortfolioFactory(StockFactory) {
       });
     },
     deletePortfolio: function(portfolio, vmPortfolios) {
-      console.log("delete portfolio", portfolio.portfolio);
       var deletePortfolio = new Portfolio();
       deletePortfolio.set("id", portfolio.portfolio.objectId);
 
@@ -54,7 +51,6 @@ function PortfolioFactory(StockFactory) {
         for(var i = 0; i < vmPortfolios.length; ++i) {
           if(vmPortfolios[i].objectId == portfolio.id) {
             vmPortfolios.splice(i, 1);
-            console.log("found");
             return vmPortfolios;
           }
         }
@@ -66,7 +62,7 @@ function PortfolioFactory(StockFactory) {
       }
 
       for(var i = 0; i < vmPortfolios.length; ++i) {
-        if(vm.newPortfolioTitle === vmPortfolios[i].title) {
+        if(vmNewPortfolioTitle === vmPortfolios[i].title) {
           return;
         }
       }

@@ -15,7 +15,6 @@ function StockFactory($http) {
         var newPortfolio = {
           objectId: portfolio.id,
           title: portfolio.get("title"),
-          isDeleted: false,
           stocks: []
         };
         for(var i = 0; i < stocks.length; i++) {
@@ -36,20 +35,10 @@ function StockFactory($http) {
               price: response.data.LastPrice,
               change: response.data.Change.toFixed(2)
             };
-            console.log("newStock", newStock);
-            console.log("i", i);
             newPortfolio.stocks.push(newStock);
-            if(i === newPortfolio.stocks.length - 1) {
-              console.log("getStocks", newPortfolio);
-              return newPortfolio;
-            }
-            if(i === 0) {
-              return newPortfolio; // TODO: returning this everytime
-            }
           });
         }
-      }).then(function(error) {
-        alert("Error: " + error + " " + error);
+        return newPortfolio;
       });
     },
     addStock: function(object, vmPortfolios) {
@@ -60,20 +49,26 @@ function StockFactory($http) {
       var ticker = object.ticker;
       var url = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=" + ticker.toUpperCase() + "&callback=JSON_CALLBACK";
 
+      var addStockObject = {};
       return $http.jsonp(url).then(function(response) {
         if(response.data.Status === undefined) {
           return;
         }
 
         var query = new Parse.Query(Portfolio);
+        addStockObject.response = response;
         return query.get(object.portfolio.objectId);
       }).then(function(portfolio) {
         // The object was retrieved successfully.
         var stock = new Stock();
         stock.set("ticker", ticker.toUpperCase());
         stock.set("portfolio", portfolio);
+        addStockObject.portfolio = portfolio;
         return stock.save(null);
       }).then(function(stock) {
+        var portfolio = addStockObject.portfolio;
+        var response = addStockObject.response;
+
         console.log('New object created with objectId: ' + stock.id);
         var newStock = {
           ticker: stock.get("ticker"),
@@ -88,8 +83,6 @@ function StockFactory($http) {
             return vmPortfolios;
           }
         }
-      }).then(function(error) {
-        alert('Failed to create new object, with error code: ' + error.message);
       });
     },
     deleteStock: function(stock, vmPortfolios) {
@@ -102,13 +95,10 @@ function StockFactory($http) {
           for(var j = 0; j < vmPortfolios[i].stocks.length; ++j) {
             if(stock.id == vmPortfolios[i].stocks[j].objectId) {
               vmPortfolios[i].stocks.splice(j, 1);
-              console.log("found");
               return vmPortfolios;
             }
           }
         }
-      }).then(function(error) {
-        console.log("deleteFailed: ");
       });
     }
   }

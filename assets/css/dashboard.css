@@ -1,8 +1,9 @@
 body {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   margin: 0;
   padding: 0;
+  color: #111;
 }
 input {
   border: none;
@@ -26,7 +27,7 @@ a {
   border-radius: 5px;
 }
 .positive {
-  color: #9CBA7F;
+  color: #82a85e;
 }
 .negative {
   color: #a84646;
@@ -44,7 +45,7 @@ a {
   text-transform: uppercase;
 }
 .font {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
 }
 .panel {
@@ -69,6 +70,10 @@ a {
 }
 .btnPrimary:hover {
   background-color: #923d3d;
+}
+.fullScreen {
+  height: 100vh;
+  width: 100vw;
 }
 .flexContainer {
   display: flex;
@@ -186,9 +191,13 @@ body {
 }
 #portfolioContainer .deleteStock {
   cursor: pointer;
+  margin-left: 3px;
 }
 #portfolioContainer .stockTicker {
   float: left;
+}
+#portfolioContainer .stockChange {
+  font-weight: 500;
 }
 #portfolioContainer .newPortfolio {
   display: inline-block;
