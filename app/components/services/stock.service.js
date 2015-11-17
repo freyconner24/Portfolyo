@@ -50,9 +50,10 @@ function StockFactory($http) {
       var url = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=" + ticker.toUpperCase() + "&callback=JSON_CALLBACK";
 
       var addStockObject = {};
-      return $http.jsonp(url).then(function(response) {
+      return $http.jsonp(url).then(function(response, error) {
         if(response.data.Status === undefined) {
-          return;
+          console.log("dones't exist");
+          return {};
         }
 
         var query = new Parse.Query(Portfolio);
