@@ -121,6 +121,7 @@ body {
   padding: 20px;
   border-radius: 5px;
   width: 50%;
+  min-width: 500px;
   background-color: #a84646;
 }
 #stockModal #stockName {
