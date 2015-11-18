@@ -1,6 +1,9 @@
 <div class="stockRow">
   <div class="">&nbsp;
-    <span class="stockTicker" ng-click="handleStockModal({stock: stock})">{{stock.ticker}}</span>
+    <span class="stockTicker">
+      {{stock.ticker}}
+      <span class="stockClickRegion" ng-click="handleStockModal({stock: stock})"></span>
+    </span>
     <span class="priceAndDelete">
       <span class="stockPrice">{{stock.price}}
         <span ng-if="stock.change >= 0" class="stockChange positive">+ {{stock.change}}</span>

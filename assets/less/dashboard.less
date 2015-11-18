@@ -19,6 +19,7 @@ html, body {
     width: 50%;
     min-width: 500px;
     background-color: @brick;
+    z-index: 20;
   }
 
   #stockName {
@@ -41,7 +42,6 @@ html, body {
     margin-top: 10px;
     margin-bottom: -10px;
     font-size: 20px;
-
   }
 }
 
@@ -53,6 +53,14 @@ html, body {
 
   input {
     min-width: 240px;
+  }
+
+  .stockClickRegion {
+    position: absolute;
+    width: 205px;
+    height: 39px;
+    left: -10px;
+    top: -10px;
   }
 
   .portfolio {
@@ -110,6 +118,7 @@ html, body {
 
   .stockTicker {
     float: left;
+    position: relative;
   }
 
   .stockPrice {

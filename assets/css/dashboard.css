@@ -123,6 +123,7 @@ body {
   width: 50%;
   min-width: 500px;
   background-color: #a84646;
+  z-index: 20;
 }
 #stockModal #stockName {
   color: white;
@@ -150,6 +151,13 @@ body {
 }
 #portfolioContainer input {
   min-width: 240px;
+}
+#portfolioContainer .stockClickRegion {
+  position: absolute;
+  width: 205px;
+  height: 39px;
+  left: -10px;
+  top: -10px;
 }
 #portfolioContainer .portfolio {
   vertical-align: top;
@@ -196,6 +204,7 @@ body {
 }
 #portfolioContainer .stockTicker {
   float: left;
+  position: relative;
 }
 #portfolioContainer .stockChange {
   font-weight: 500;

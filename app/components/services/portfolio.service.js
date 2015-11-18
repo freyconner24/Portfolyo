@@ -39,10 +39,14 @@ function PortfolioFactory(StockFactory) {
         console.log("deleted", portfolio);
         for(var i = 0; i < vmPortfolios.length; ++i) {
           if(vmPortfolios[i].objectId == portfolio.id) {
+            console.log(vmPortfolios);
+            var stocks = vmPortfolios[i].stocks;
+            factory.deleteStocks(stocks);
             vmPortfolios.splice(i, 1);
-            return vmPortfolios;
           }
         }
+      }).done(function() {
+        return vmPortfolios;
       });
     },
     constructPortfolioObject: function(objectId, title, createdAt, stocks) {
@@ -71,6 +75,13 @@ function PortfolioFactory(StockFactory) {
         if(vmNewPortfolioTitle === vmPortfolios[i].title) {
           return;
         }
+      }
+    },
+    deleteStocks: function(stocks) {
+      var deleteStock = new Stock();
+      for(var j = 0; j < stocks.length; ++j) {
+        deleteStock.set("id", stocks[j].objectId);
+        deleteStock.destroy();
       }
     }
   }
