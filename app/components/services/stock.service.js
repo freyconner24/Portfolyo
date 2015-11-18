@@ -12,11 +12,7 @@ function StockFactory($http) {
       query.equalTo("portfolio", portfolio);
       return query.find().then(function(stocks) {
         console.log("Successfully retrieved " + stocks.length + " stocks.");
-        var newPortfolio = {
-          objectId: portfolio.id,
-          title: portfolio.get("title"),
-          stocks: []
-        };
+        var newPortfolio = factory.constructPortfolioObject(portfolio.id, portfolio.get("title"), portfolio.get("createdAt"), []);
         for(var i = 0; i < stocks.length; i++) {
           var stock = stocks[i];
           var ticker = stock.get("ticker");
@@ -24,17 +20,12 @@ function StockFactory($http) {
           $http({
             method: "jsonp",
             url: url,
-            params: {ticker: ticker, stock: stock, i: i}
+            params: {ticker: ticker, stock: stock}
           }).then(function(response) {
             if(response.data.Status === undefined) {
               return;
             }
-            var newStock = {
-              ticker: response.config.params.ticker,
-              objectId: response.config.params.stock.id,
-              price: response.data.LastPrice,
-              change: response.data.Change.toFixed(2)
-            };
+            var newStock = factory.constructStockObject(response.config.params.stock.id, response.config.params.ticker, response.data.LastPrice, response.data.Change.toFixed(2));
             newPortfolio.stocks.push(newStock);
           });
         }
@@ -42,11 +33,11 @@ function StockFactory($http) {
       });
     },
     addStock: function(object, vmPortfolios) {
-      if(isDuplicateTicker(ticker, object.portfolio)) {
+      var ticker = object.ticker;
+      var portfolio = object.portfolio;
+      if(factory.stockExists(ticker, portfolio)) {
         return;
       }
-
-      var ticker = object.ticker;
       var url = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=" + ticker.toUpperCase() + "&callback=JSON_CALLBACK";
 
       var addStockObject = {};
@@ -58,7 +49,7 @@ function StockFactory($http) {
 
         var query = new Parse.Query(Portfolio);
         addStockObject.response = response;
-        return query.get(object.portfolio.objectId);
+        return query.get(portfolio.objectId);
       }).then(function(portfolio) {
         // The object was retrieved successfully.
         var stock = new Stock();
@@ -71,13 +62,7 @@ function StockFactory($http) {
         var response = addStockObject.response;
 
         console.log('New object created with objectId: ' + stock.id);
-        var newStock = {
-          ticker: stock.get("ticker"),
-          objectId: stock.id,
-          price: response.data.LastPrice,
-          change: response.data.Change.toFixed(2),
-          isDeleted: false
-        };
+        var newStock = factory.constructStockObject(stock.id, stock.get("ticker"), response.data.LastPrice, response.data.Change.toFixed(2));
         for(var i = 0; i < vmPortfolios.length; ++i) {
           if(portfolio.id == vmPortfolios[i].objectId) {
             vmPortfolios[i].stocks.push(newStock);
@@ -101,6 +86,31 @@ function StockFactory($http) {
           }
         }
       });
+    },
+    constructStockObject: function(objectId, ticker, price, change) {
+      return {
+        objectId: objectId,
+        ticker: ticker,
+        price: price,
+        change: change
+      }
+    },
+    constructPortfolioObject: function(objectId, title, createdAt, stocks) {
+      return {
+        objectId: objectId,
+        title: title,
+        createdAt: createdAt,
+        stocks: stocks
+      }
+    },
+    stockExists: function(ticker, portfolio) {
+      for(var i = 0; i < portfolio.stocks.length; ++i) {
+        if(ticker === portfolio.stocks[i].ticker) {
+          console.log("can't insert duplicate stock");
+          return true;
+        }
+      }
+      return false;
     }
   }
 }

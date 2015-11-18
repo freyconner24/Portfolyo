@@ -11,17 +11,12 @@ function PortfolioFactory(StockFactory) {
       var query = new Parse.Query(Portfolio);
       query.equalTo("user", Parse.User.current());
       return query.find().then(function(portfolios) {
-        var vmPortfolios = [];
         console.log("Successfully retrieved " + portfolios.length + " portfolios.");
-        for (var i = 0; i < portfolios.length; i++) {
-          StockFactory.getStocks(portfolios[i]).then(function(portfolio) {
-            vmPortfolios.push(portfolio);
-          });
-        }
-        return vmPortfolios; // TODO: issue is here.  It returns promises
+        var vmPortfolios = factory.populatePortfoliosWithStocks(portfolios);
+        return vmPortfolios;
       });
     },
-    newPortfolio: function(vm) {
+    addPortfolio: function(vm) {
       if(factory.portfolioExists(vm.portfolios, vm.newPortfolioTitle)) {
         return;
       }
@@ -33,13 +28,7 @@ function PortfolioFactory(StockFactory) {
 
       return portfolio.save(null).then(function(portfolio) {
         console.log('New object created with objectId: ' + portfolio.id);
-        var newPortfolio = {
-          objectId: portfolio.id,
-          title: vm.newPortfolioTitle,
-          isDeleted: false,
-          stocks: []
-        }
-        return newPortfolio;
+        return factory.constructPortfolioObject(portfolio.id, vm.newPortfolioTitle, portfolio.get("createdAt"), []);
       });
     },
     deletePortfolio: function(portfolio, vmPortfolios) {
@@ -55,6 +44,23 @@ function PortfolioFactory(StockFactory) {
           }
         }
       });
+    },
+    constructPortfolioObject: function(objectId, title, createdAt, stocks) {
+      return {
+        objectId: objectId,
+        title: title,
+        createdAt: createdAt,
+        stocks: stocks
+      }
+    },
+    populatePortfoliosWithStocks: function(portfolios){
+      var vmPortfolios = [];
+      for (var i = 0; i < portfolios.length; i++) {
+        StockFactory.getStocks(portfolios[i]).then(function(portfolio) {
+          vmPortfolios.push(portfolio);
+        });
+      }
+      return vmPortfolios;
     },
     portfolioExists: function(vmPortfolios, vmNewPortfolioTitle) {
       if(vmPortfolios === undefined || vmNewPortfolioTitle === undefined) {

@@ -17,7 +17,7 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
   vm.showPortfolioInput = showPortfolioInput;
   vm.deleteStock = deleteStock;
   vm.deletePortfolio = deletePortfolio;
-  vm.newPortfolio = newPortfolio;
+  vm.addPortfolio = addPortfolio;
   vm.stockModal = stockModal;
   vm.closeModal = closeModal;
 
@@ -57,8 +57,8 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
       });
   }
 
-  function newPortfolio() {
-    PortfolioFactory.newPortfolio(vm)
+  function addPortfolio() {
+    PortfolioFactory.addPortfolio(vm)
       .then(function(newPortfolio) {
         vm.portfolios.push(newPortfolio);
         vm.newPortfolioTitle = "";
@@ -93,14 +93,4 @@ function DashboardController(SessionFactory, ModalFactory, StockFactory, Portfol
   function closeModal() {
     vm.stockModalIsVisible = ModalFactory.closeModal();
   }
-}
-
-function isDuplicateTicker (ticker, portfolio) {
-  for(var i = 0; i < portfolio.stocks.length; ++i) {
-    if(ticker === portfolio.stocks[i].ticker) {
-      console.log("can't insert duplicate stock");
-      return true;
-    }
-  }
-  return false;
 }
