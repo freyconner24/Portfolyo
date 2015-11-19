@@ -18,7 +18,7 @@ function PortfolioFactory(StockFactory) {
     },
     addPortfolio: function(vm) {
       if(factory.portfolioExists(vm.portfolios, vm.newPortfolioTitle)) {
-        return;
+        return false;
       }
 
       var portfolio = new Portfolio();
@@ -73,16 +73,21 @@ function PortfolioFactory(StockFactory) {
 
       for(var i = 0; i < vmPortfolios.length; ++i) {
         if(vmNewPortfolioTitle === vmPortfolios[i].title) {
-          return;
+          return true;
         }
       }
+
+      return false;
     },
     deleteStocks: function(stocks) {
       var deleteStock = new Stock();
-      for(var j = 0; j < stocks.length; ++j) {
-        deleteStock.set("id", stocks[j].objectId);
+      for(var i = 0; i < stocks.length; ++i) {
+        deleteStock.set("id", stocks[i].objectId);
         deleteStock.destroy();
       }
+
+      stocks = [];
+      return stocks;
     }
   }
 }
