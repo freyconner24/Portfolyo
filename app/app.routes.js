@@ -24,5 +24,5 @@ function config($routeProvider, $locationProvider) {
   //   enabled: true,
   //   requireBase: false
   // });
-  $locationProvider.hashPrefix('!');
+  // $locationProvider.hashPrefix('!');
 }
