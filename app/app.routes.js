@@ -20,9 +20,9 @@ function config($routeProvider, $locationProvider) {
       controllerAs: 'vm'
     });
 
-  $locationProvider.html5Mode({
-    enabled: true,
-    requireBase: false
-  });
+  // $locationProvider.html5Mode({
+  //   enabled: true,
+  //   requireBase: false
+  // });
   $locationProvider.hashPrefix('!');
 }
