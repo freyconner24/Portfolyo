@@ -1,12 +1,15 @@
 <div class="stockRow">
   <div class="">&nbsp;
-    <span class="stockTicker" ng-click="handleStockModal({stock: stock})">{{stock.ticker}}</span>
+    <span class="stockTicker">
+      {{stock.ticker}}
+      <span class="stockClickRegion" ng-click="handleStockModal({stock: stock})"></span>
+    </span>
     <span class="priceAndDelete">
       <span class="stockPrice">{{stock.price}}
         <span ng-if="stock.change >= 0" class="stockChange positive">+ {{stock.change}}</span>
         <span ng-if="stock.change < 0" class="stockChange negative">- {{stock.change * -1}}</span>
       </span>
-      <span class="deleteStock" ng-click="handleDeleteStock({stock: stock})">X</span>
+      <span class="deleteStock" ng-click="handleDeleteStock({stock: stock})"><i class="fa fa-close"></i></span>
     </span>
   </div>
 </div>

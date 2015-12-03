@@ -4,6 +4,11 @@ angular
 
 function config($routeProvider, $locationProvider) {
   $routeProvider
+    .when('/', {
+      templateUrl: '/app/components/sign/sign.view.html',
+      controller: 'SignController',
+      controllerAs: 'vm'
+    })
     .when('/sign', {
       templateUrl: '/app/components/sign/sign.view.html',
       controller: 'SignController',
@@ -15,9 +20,9 @@ function config($routeProvider, $locationProvider) {
       controllerAs: 'vm'
     });
 
-  $locationProvider.html5Mode({
-    enabled: true,
-    requireBase: false
-  });
-  $locationProvider.hashPrefix('!');
+  // $locationProvider.html5Mode({
+  //   enabled: true,
+  //   requireBase: false
+  // });
+  // $locationProvider.hashPrefix('!');
 }

@@ -48,7 +48,7 @@ function ModalFactory($location, $http) {
           }
         ]
       };
-      var url = 'http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/jsonp?parameters=' + encodeURIComponent(JSON.stringify(searchObject)) + "&callback=JSON_CALLBACK";
+      var url = 'http://dev.markitondemand.com/MODApis/Api/v2/InteractiveChart/jsonp?parameters=' + encodeURIComponent(JSON.stringify(searchObject)) + '&callback=JSON_CALLBACK';
       console.log(url);
       return $http.jsonp(url).then(function(response) {
         console.log(response);
