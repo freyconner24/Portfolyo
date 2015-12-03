@@ -14,8 +14,8 @@
           <div ng-if="!vm.signUp"><input type="submit" class="btnPrimary" value="Sign In"></div>
         </form>
         <br>
-        <div ng-if="!vm.signUp">Don't have an account? <a href="#" ng-click="vm.toggleSignUpIn()">Sign Up</a> instead</div>
-        <div ng-if="vm.signUp">Have an account? <a href="#" ng-click="vm.toggleSignUpIn()">Sign In</a> instead</div>
+        <div ng-if="!vm.signUp">Don't have an account? <a ng-click="vm.toggleSignUpIn()">Sign Up</a> instead</div>
+        <div ng-if="vm.signUp">Have an account? <a ng-click="vm.toggleSignUpIn()">Sign In</a> instead</div>
       </div>
     </div>
   </div>
